@@ -220,12 +220,14 @@
   .expand-all:hover, .expand-all:focus-visible { color: var(--accent); }
   @media (max-width: 600px) { .item.x { margin: 0 -10px 6px; padding: 12px 10px; } .item.x::before { left: -2px; } }
 
+  .print-only { display: none; }
   /* Print: one clean, black-on-white page set */
   @media print {
     @page { margin: 0.35in 0.5in; }
     :root { --bg:#fff; --surface:#fff; --text:#000; --muted:#333; --faint:#444; --line:#bbb; --accent:#000; --chip:#fff; }
     body { font-size: 9pt; line-height: 1.27; }
     .web-only { display: none !important; }
+    .print-only { display: list-item !important; }
     .wrap { max-width: none; padding: 0; }
     header { margin-bottom: 8px; text-align: center; }
     h1 { font-size: 20pt; }
@@ -468,16 +470,18 @@
           <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="quantum-body">Secretary <span class="org">· Quantum Computing Club at Virginia Tech</span></button></h3>
           <span class="date">Fall 2026</span>
         </div>
-        <p class="summary">Co-organized Qiskit Fall Fest and built the grader for its beginner track.<span class="chev" aria-hidden="true"></span></p>
+        <p class="summary">Co-organized Qiskit Fall Fest (60 registrants, 12 hackathon teams) and built its auto-grading platform.<span class="chev" aria-hidden="true"></span></p>
       </div>
       <div class="item-body" id="quantum-body">
         <div class="inner">
-          <p class="sub web-only">Qiskit Fall Fest: a two-track event with guided notebooks for newcomers to quantum computing and a hackathon for experienced participants.</p>
+          <p class="sub web-only">Qiskit Fall Fest 2026: a two-track event with guided notebooks for newcomers to quantum computing and a hackathon for experienced participants.</p>
           <ul class="points">
-            <li>Co-organized Qiskit Fall Fest, running a beginner track built on guided Jupyter notebooks that teach quantum-computing fundamentals and an advanced track run as a hackathon.</li>
-            <li>Built the grader for the beginner track, evaluating participants’ notebook solutions to the quantum-computing exercises.</li>
+            <li>Co-organized Qiskit Fall Fest for 60 registrants: a guided-notebook beginner track and a 12-team hackathon.</li>
+            <li class="print-only">Built the event’s FastAPI auto-grader: sandboxed, OpenQASM-only submissions verified by quantum-state simulation with hidden test inputs.</li>
+            <li class="web-only">Built the event’s auto-grader as a FastAPI service: teams submit Qiskit circuits from their notebooks and the server checks 14 beginner challenges by statevector and density-matrix simulation, using hidden inputs (e.g. 6 swapped-in Bernstein–Vazirani secrets) so hard-coded answers fail.</li>
+            <li class="web-only">Hardened it for untrusted input: submissions are OpenQASM only and never executed as Python, with a gate allowlist, 4,000-operation and 60k-character caps, per-team rate limits and a 40 s timeout per job in an isolated worker pool, feeding a live projector leaderboard.</li>
           </ul>
-          <div class="tags"><span>Qiskit</span><span>Jupyter</span><span>Python</span><span>Event organizing</span></div>
+          <div class="tags"><span>Qiskit</span><span>FastAPI</span><span>OpenQASM</span><span>Python</span><span>Sandboxing</span></div>
         </div>
       </div>
     </article>
