@@ -183,6 +183,43 @@
     .js h2::after { transform: none; }
   }
 
+
+  /* ---------- Expandable cards ---------- */
+  .item.x { margin: 0 -18px 6px; padding: 14px 18px; border-radius: 12px; border: 1px solid transparent;
+            cursor: pointer; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease; }
+  .item.x:hover { transform: none; background: var(--surface); border-color: var(--line); }
+  .item.x.open { background: var(--surface); border-color: var(--line);
+                 box-shadow: 0 10px 30px -18px color-mix(in srgb, var(--text) 35%, transparent); }
+  .item.x::before { left: 0; top: 18px; bottom: 18px; }
+  .item.x.open::before { transform: scaleY(1); }
+  .toggle { all: unset; cursor: pointer; }
+  .toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+  .item.x:hover h3, .item.x.open h3 { color: var(--accent); }
+  h3 { transition: color .2s ease; }
+  .summary { margin-top: 4px; color: var(--muted); font-size: 14.5px; display: flex; gap: 12px; justify-content: space-between; align-items: center; }
+  .chev { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line); position: relative;
+          transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .2s ease, background .2s ease; }
+  .chev::before { content: ""; position: absolute; left: 50%; top: 45%; width: 6px; height: 6px;
+                  border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted);
+                  transform: translate(-50%, -50%) rotate(45deg); }
+  .item.x:hover .chev { border-color: var(--accent); }
+  .item.x.open .chev { transform: rotate(180deg); background: var(--accent-soft); border-color: var(--accent); }
+  .item-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1); cursor: auto; }
+  .item-body > .inner { min-height: 0; overflow: hidden; }
+  .item-body > .inner > :first-child { margin-top: 12px; }
+  .js .item.x:not(.open) .item-body { grid-template-rows: 0fr; }
+  .js .item.x .inner { opacity: 0; transform: translateY(-6px); transition: opacity .3s ease, transform .4s ease; }
+  .js .item.x.open .inner { opacity: 1; transform: none; transition-delay: .08s; }
+  .js .item.x.open .inner li { animation: rise .45s cubic-bezier(.2,.7,.2,1) both; }
+  .js .item.x.open .inner li:nth-child(2) { animation-delay: .06s; }
+  .js .item.x.open .inner li:nth-child(3) { animation-delay: .12s; }
+  html:not(.js) .chev, html:not(.js) .expand-all { display: none; }
+  h2 { display: flex; justify-content: space-between; align-items: baseline; }
+  .expand-all { font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint);
+                background: none; border: 0; cursor: pointer; padding: 0; transition: color .2s ease; }
+  .expand-all:hover, .expand-all:focus-visible { color: var(--accent); }
+  @media (max-width: 600px) { .item.x { margin: 0 -10px 6px; padding: 12px 10px; } .item.x::before { left: -2px; } }
+
   /* Print: one clean, black-on-white page set */
   @media print {
     @page { margin: 0.4in 0.5in; }
@@ -213,6 +250,12 @@
     .skills dd span { border: 0; padding: 0; font-size: 9.5pt; background: none; }
     .skills dd span:not(:last-child)::after { content: ", "; }
     footer { display: none; }
+    .summary, .chev, .expand-all { display: none !important; }
+    .item.x { margin: 0 0 6px; padding: 0; border: 0; box-shadow: none !important; background: none !important; }
+    .item-body { grid-template-rows: 1fr !important; }
+    .item-body > .inner { opacity: 1 !important; transform: none !important; }
+    .item-body > .inner > :first-child { margin-top: 1px; }
+    .item.x h3 { color: #000 !important; }
     header::before, .progress, .item::before, h2::after { display: none !important; }
     header > *, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
     h2 { border-bottom: 1px solid var(--line); }
@@ -253,113 +296,167 @@
 
   <section>
     <h2>Education</h2>
-    <div class="item">
-      <div class="row">
-        <h3>Virginia Polytechnic Institute and State University</h3>
-        <span class="date">Expected May 2028</span>
+    <article class="item x" id="edu">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="edu-body">Virginia Polytechnic Institute and State University</button></h3>
+          <span class="date">Expected May 2028</span>
+        </div>
+        <p class="summary">Dual Degree in Computer Science &amp; Physics · GPA 3.71 · Dean’s List every semester<span class="chev" aria-hidden="true"></span></p>
       </div>
-      <p class="sub">Dual Degree in Computer Science &amp; Physics · Blacksburg, Virginia</p>
-      <div class="edu-facts">
-        <span><b>GPA</b> 3.71 / 4.00</span>
-        <span><b>Dean’s List</b> every semester</span>
+      <div class="item-body" id="edu-body">
+        <div class="inner">
+          <p class="sub">Dual Degree in Computer Science &amp; Physics · Blacksburg, Virginia</p>
+          <div class="edu-facts">
+            <span><b>GPA</b> 3.71 / 4.00</span>
+            <span><b>Dean’s List</b> every semester</span>
+          </div>
+          <p class="course">
+            Coursework: Data Structures &amp; Algorithms, Graph Theory, Computer Organization &amp; Programming,
+            Combinatorics, Statistics, Computer Systems, Comparative Languages, CUDA Programming
+          </p>
+        </div>
       </div>
-      <p class="course">
-        Coursework: Data Structures &amp; Algorithms, Graph Theory, Computer Organization &amp; Programming,
-        Combinatorics, Statistics, Computer Systems, Comparative Languages, CUDA Programming
-      </p>
-    </div>
+    </article>
   </section>
 
   <section>
-    <h2>Experience</h2>
-
-    <div class="item">
-      <div class="row">
-        <h3>Artificial Intelligence Intern <span class="org">· Azyntis Technologies</span></h3>
-        <span class="date">Jun 2026 – Jul 2026</span>
+    <h2>Experience <button type="button" class="expand-all" aria-pressed="false">Expand all</button></h2>
+    <article class="item x" id="ai-intern">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="ai-intern-body">Artificial Intelligence Intern <span class="org">· Azyntis Technologies</span></button></h3>
+          <span class="date">Jun 2026 – Jul 2026</span>
+        </div>
+        <p class="summary">ML models and data pipelines on indices, ETFs, futures and derivatives market data.<span class="chev" aria-hidden="true"></span></p>
       </div>
-      <ul class="points">
-        <li>Developed and fine-tuned machine-learning models on historical indices, ETFs, futures and derivatives data to identify market-movement patterns.</li>
-        <li>Built pipelines to ingest, clean and structure high-frequency market data; contributed to backend APIs that surface AI-generated insights in internal dashboards.</li>
-        <li>Worked with engineering and analytics teams to evaluate ETF and derivative price-trend predictions and improve model accuracy.</li>
-      </ul>
-      <div class="tags"><span>Python</span><span>PyTorch</span><span>Time-series</span><span>Data pipelines</span></div>
-    </div>
-
-    <div class="item">
-      <div class="row">
-        <h3>Undergraduate Researcher <span class="org">· Virginia Tech Dept. of Computer Science</span></h3>
-        <span class="date">Oct 2025 – Present</span>
+      <div class="item-body" id="ai-intern-body">
+        <div class="inner">
+          <ul class="points">
+            <li>Developed and fine-tuned machine-learning models on historical indices, ETFs, futures and derivatives data to identify market-movement patterns.</li>
+            <li>Built pipelines to ingest, clean and structure high-frequency market data; contributed to backend APIs that surface AI-generated insights in internal dashboards.</li>
+            <li>Worked with engineering and analytics teams to evaluate ETF and derivative price-trend predictions and improve model accuracy.</li>
+          </ul>
+          <div class="tags"><span>Python</span><span>PyTorch</span><span>Time-series</span><span>Data pipelines</span></div>
+        </div>
       </div>
-      <p class="sub">Backend engineer on a gamified SQL learning platform with a real-time leaderboard ranking students by assignment completion speed; targeted for deployment in CS 4604 (Intro to Database Management Systems).</p>
-      <ul class="points">
-        <li>Built a webhook-driven leaderboard update flow: the grading service POSTs back on each assignment run, pushing session state to clients in near real time without polling.</li>
-        <li>Standardized all event timestamps to UTC across the backend, reducing average clock drift by 90%, and optimized Psycopg2 PostgreSQL access patterns for high-frequency leaderboard reads under concurrent student load.</li>
-      </ul>
-      <div class="tags"><span>PostgreSQL</span><span>Psycopg2</span><span>Webhooks</span><span>Real-time</span></div>
-    </div>
+    </article>
 
-    <div class="item">
-      <div class="row">
-        <h3>Undergraduate Researcher <span class="org">· Virginia Tech ICAT</span></h3>
-        <span class="date">Jan 2026 – May 2026</span>
+    <article class="item x" id="vt-cs">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="vt-cs-body">Undergraduate Researcher <span class="org">· Virginia Tech Dept. of Computer Science</span></button></h3>
+          <span class="date">Oct 2025 – Present</span>
+        </div>
+        <p class="summary">Backend for a gamified SQL learning platform with a real-time leaderboard, targeted for CS 4604.<span class="chev" aria-hidden="true"></span></p>
       </div>
-      <p class="sub">Team Loopy (IDPro): ICAT-funded browser application that converts stereo music into immersive 3D spatial audio.</p>
-      <ul class="points">
-        <li>Built a responsive React + Tailwind interface with a custom Canvas-based particle system that visualizes audio spatialization in real time, synced to playback state.</li>
-        <li>Presented the working prototype at ICAT Day (50+ attendees) and the IDPro Showcase (100+ attendees), Spring 2026.</li>
-      </ul>
-      <div class="tags"><span>React</span><span>Tailwind</span><span>Canvas</span><span>Web Audio</span></div>
-    </div>
+      <div class="item-body" id="vt-cs-body">
+        <div class="inner">
+          <p class="sub">Backend engineer on a gamified SQL learning platform with a real-time leaderboard ranking students by assignment completion speed; targeted for deployment in CS 4604 (Intro to Database Management Systems).</p>
+          <ul class="points">
+            <li>Built a webhook-driven leaderboard update flow: the grading service POSTs back on each assignment run, pushing session state to clients in near real time without polling.</li>
+            <li>Standardized all event timestamps to UTC across the backend, reducing average clock drift by 90%, and optimized Psycopg2 PostgreSQL access patterns for high-frequency leaderboard reads under concurrent student load.</li>
+          </ul>
+          <div class="tags"><span>PostgreSQL</span><span>Psycopg2</span><span>Webhooks</span><span>Real-time</span></div>
+        </div>
+      </div>
+    </article>
 
-    <div class="item">
-      <div class="row">
-        <h3>Full Stack Development Intern <span class="org">· Tricon Infra Buildtech</span></h3>
-        <span class="date">Jun 2025 – Aug 2025</span>
+    <article class="item x" id="vt-icat">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="vt-icat-body">Undergraduate Researcher <span class="org">· Virginia Tech ICAT</span></button></h3>
+          <span class="date">Jan 2026 – May 2026</span>
+        </div>
+        <p class="summary">Front end for a browser app that turns stereo music into 3D spatial audio; demoed to 150+ people.<span class="chev" aria-hidden="true"></span></p>
       </div>
-      <ul class="points">
-        <li>Debugged and resolved 10+ P0/P1 issues and automated 20+ weekly manual tasks (data entry, reporting workflows) with backend endpoints and scripts, reducing ops workload by 25%.</li>
-        <li>Built role-based authentication flows and ERP API integrations; containerized services for staging with Docker to streamline testing and handoffs.</li>
-      </ul>
-      <div class="tags"><span>Node.js</span><span>Auth / RBAC</span><span>Docker</span><span>ERP APIs</span></div>
-    </div>
+      <div class="item-body" id="vt-icat-body">
+        <div class="inner">
+          <p class="sub">Team Loopy (IDPro): ICAT-funded browser application that converts stereo music into immersive 3D spatial audio.</p>
+          <ul class="points">
+            <li>Built a responsive React + Tailwind interface with a custom Canvas-based particle system that visualizes audio spatialization in real time, synced to playback state.</li>
+            <li>Presented the working prototype at ICAT Day (50+ attendees) and the IDPro Showcase (100+ attendees), Spring 2026.</li>
+          </ul>
+          <div class="tags"><span>React</span><span>Tailwind</span><span>Canvas</span><span>Web Audio</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="item x" id="tricon">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="tricon-body">Full Stack Development Intern <span class="org">· Tricon Infra Buildtech</span></button></h3>
+          <span class="date">Jun 2025 – Aug 2025</span>
+        </div>
+        <p class="summary">Resolved 10+ P0/P1 issues and automated 20+ weekly tasks, cutting ops workload by 25%.<span class="chev" aria-hidden="true"></span></p>
+      </div>
+      <div class="item-body" id="tricon-body">
+        <div class="inner">
+          <ul class="points">
+            <li>Debugged and resolved 10+ P0/P1 issues and automated 20+ weekly manual tasks (data entry, reporting workflows) with backend endpoints and scripts, reducing ops workload by 25%.</li>
+            <li>Built role-based authentication flows and ERP API integrations; containerized services for staging with Docker to streamline testing and handoffs.</li>
+          </ul>
+          <div class="tags"><span>Node.js</span><span>Auth / RBAC</span><span>Docker</span><span>ERP APIs</span></div>
+        </div>
+      </div>
+    </article>
   </section>
 
   <section>
-    <h2>Projects</h2>
-
-    <div class="item">
-      <div class="row">
-        <h3>Kaka <span class="org">· Local-first AI voice assistant</span></h3>
-        <span class="date">Mar 2026 – Present</span>
+    <h2>Projects <button type="button" class="expand-all" aria-pressed="false">Expand all</button></h2>
+    <article class="item x" id="kaka">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="kaka-body">Kaka <span class="org">· Local-first AI voice assistant</span></button></h3>
+          <span class="date">Mar 2026 – Present</span>
+        </div>
+        <p class="summary">Fully offline voice assistant running Whisper → Qwen → Piper on an 8 GB consumer GPU.<span class="chev" aria-hidden="true"></span></p>
       </div>
-      <ul class="points">
-        <li>Built a fully offline AI voice assistant with a concurrent Whisper → Qwen → Piper pipeline, wake-word detection, hybrid SQLite/ChromaDB memory and 6+ native tools, optimized for an 8 GB consumer GPU.</li>
-      </ul>
-      <div class="tags"><span>Whisper</span><span>Qwen</span><span>Piper</span><span>ChromaDB</span><span>OpenWakeWord</span></div>
-    </div>
-
-    <div class="item">
-      <div class="row">
-        <h3>FNet Language Model</h3>
-        <span class="date">Jan 2026 – May 2026</span>
+      <div class="item-body" id="kaka-body">
+        <div class="inner">
+          <ul class="points">
+            <li>Built a fully offline AI voice assistant with a concurrent Whisper → Qwen → Piper pipeline, wake-word detection, hybrid SQLite/ChromaDB memory and 6+ native tools, optimized for an 8 GB consumer GPU.</li>
+          </ul>
+          <div class="tags"><span>Whisper</span><span>Qwen</span><span>Piper</span><span>ChromaDB</span><span>OpenWakeWord</span></div>
+        </div>
       </div>
-      <ul class="points">
-        <li>Implemented the FNet architecture (Lee-Thorp et al.) in PyTorch: a 12.3M-parameter transformer alternative that replaces self-attention with parameter-free Fourier mixing.</li>
-      </ul>
-      <div class="tags"><span>PyTorch</span><span>Transformers</span><span>FFT</span></div>
-    </div>
+    </article>
 
-    <div class="item">
-      <div class="row">
-        <h3>AI-Powered Traffic Violation Detection &amp; E-Challan System</h3>
-        <span class="date">Jan 2026</span>
+    <article class="item x" id="fnet">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="fnet-body">FNet Language Model</button></h3>
+          <span class="date">Jan 2026 – May 2026</span>
+        </div>
+        <p class="summary">12.3M-parameter transformer in PyTorch that swaps self-attention for Fourier mixing.<span class="chev" aria-hidden="true"></span></p>
       </div>
-      <ul class="points">
-        <li>Used YOLOv8 for vehicle detection and EasyOCR for plate extraction; evaluated on 500 annotated images, achieving 80–85% precision on accepted reads.</li>
-      </ul>
-      <div class="tags"><span>YOLOv8</span><span>EasyOCR</span><span>Computer vision</span></div>
-    </div>
+      <div class="item-body" id="fnet-body">
+        <div class="inner">
+          <ul class="points">
+            <li>Implemented the FNet architecture (Lee-Thorp et al.) in PyTorch: a 12.3M-parameter transformer alternative that replaces self-attention with parameter-free Fourier mixing.</li>
+          </ul>
+          <div class="tags"><span>PyTorch</span><span>Transformers</span><span>FFT</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="item x" id="traffic">
+      <div class="item-head">
+        <div class="row">
+          <h3><button type="button" class="toggle" aria-expanded="false" aria-controls="traffic-body">AI-Powered Traffic Violation Detection &amp; E-Challan System</button></h3>
+          <span class="date">Jan 2026</span>
+        </div>
+        <p class="summary">YOLOv8 + EasyOCR plate reader with 80–85% precision on 500 annotated images.<span class="chev" aria-hidden="true"></span></p>
+      </div>
+      <div class="item-body" id="traffic-body">
+        <div class="inner">
+          <ul class="points">
+            <li>Used YOLOv8 for vehicle detection and EasyOCR for plate extraction; evaluated on 500 annotated images, achieving 80–85% precision on accepted reads.</li>
+          </ul>
+          <div class="tags"><span>YOLOv8</span><span>EasyOCR</span><span>Computer vision</span></div>
+        </div>
+      </div>
+    </article>
   </section>
 
   <section>
@@ -398,6 +495,37 @@
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     els.forEach(function (el) { io.observe(el); });
+
+    // Expandable cards
+    var cards = document.querySelectorAll('.item.x');
+    function setOpen(card, open) {
+      card.classList.toggle('open', open);
+      card.querySelector('.toggle').setAttribute('aria-expanded', open);
+      var body = card.querySelector('.item-body');
+      if (open) body.removeAttribute('inert'); else body.setAttribute('inert', '');
+    }
+    cards.forEach(function (card) {
+      setOpen(card, false);
+      card.querySelector('.item-head').addEventListener('click', function () {
+        setOpen(card, !card.classList.contains('open'));
+        syncAll(card.closest('section'));
+      });
+    });
+    function syncAll(section) {
+      var btn = section && section.querySelector('.expand-all'); if (!btn) return;
+      var all = [].every.call(section.querySelectorAll('.item.x'), function (c) { return c.classList.contains('open'); });
+      btn.textContent = all ? 'Collapse all' : 'Expand all'; btn.setAttribute('aria-pressed', all);
+    }
+    document.querySelectorAll('.expand-all').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var sec = btn.closest('section'), open = btn.getAttribute('aria-pressed') !== 'true';
+        sec.querySelectorAll('.item.x').forEach(function (c) { setOpen(c, open); });
+        syncAll(sec);
+      });
+    });
+    // Deep link: /#kaka opens that card
+    if (location.hash) { var t = document.querySelector(location.hash + '.item.x'); if (t) setOpen(t, true); }
+    window.addEventListener('beforeprint', function () { cards.forEach(function (c) { c.querySelector('.item-body').removeAttribute('inert'); }); });
     // Never leave content hidden when printing
     window.addEventListener('beforeprint', function () { els.forEach(function (el) { el.classList.add('in'); }); });
 
