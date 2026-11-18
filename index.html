@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yuvraj Sarin</title>
+<meta name="description" content="Yuvraj Sarin — Computer Science & Physics at Virginia Tech. Backend, ML and full-stack engineering.">
+<meta property="og:title" content="Yuvraj Sarin">
+<meta property="og:description" content="Computer Science & Physics at Virginia Tech. Backend, ML and full-stack engineering.">
+<meta property="og:type" content="profile">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --text: #1b1d21;
+    --muted: #5d636e;
+    --faint: #8a909a;
+    --line: #e6e7ea;
+    --accent: #c2410c;          /* Virginia Tech-adjacent burnt orange */
+    --accent-soft: #fdf1ea;
+    --chip: #f2f3f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111214;
+      --surface: #17181b;
+      --text: #ececee;
+      --muted: #a4a9b3;
+      --faint: #767c87;
+      --line: #2a2c31;
+      --accent: #fb8a4c;
+      --accent-soft: #2a1a12;
+      --chip: #212328;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 15.5px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); text-decoration-color: currentColor; }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 72px 24px 96px; }
+
+  /* Header */
+  header { margin-bottom: 56px; }
+  h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.025em; font-weight: 700; }
+  .tagline { margin-top: 10px; font-size: 18px; color: var(--muted); max-width: 60ch; }
+  .tagline strong { color: var(--text); font-weight: 600; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 24px; }
+  .links a {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--surface); text-decoration: none; font-size: 14px; font-weight: 500;
+  }
+  .links a:hover { border-color: var(--accent); }
+  .links svg { width: 15px; height: 15px; flex: none; }
+  .links .primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .links .primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* Sections */
+  section { margin-top: 52px; }
+  h2 {
+    font: 500 12px/1 "JetBrains Mono", ui-monospace, monospace;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+    padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 26px;
+  }
+
+  .item { margin-bottom: 30px; }
+  .item:last-child { margin-bottom: 0; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  h3 { font-size: 16.5px; font-weight: 600; letter-spacing: -0.01em; }
+  h3 .org { font-weight: 400; color: var(--muted); }
+  .date { font: 400 13px/1.4 "JetBrains Mono", ui-monospace, monospace; color: var(--faint); white-space: nowrap; }
+  .sub { color: var(--muted); font-size: 14.5px; margin-top: 3px; }
+  ul.points { margin-top: 10px; padding-left: 0; list-style: none; }
+  ul.points li { position: relative; padding-left: 18px; margin-top: 6px; color: var(--text); }
+  ul.points li::before {
+    content: "–"; position: absolute; left: 0; color: var(--faint);
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tags span {
+    font: 400 12px/1 "JetBrains Mono", ui-monospace, monospace;
+    padding: 5px 8px; border-radius: 6px; background: var(--chip); color: var(--muted);
+  }
+
+  .edu-facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; font-size: 14.5px; }
+  .edu-facts b { font-weight: 600; }
+  .course { margin-top: 10px; font-size: 14.5px; color: var(--muted); }
+
+  .skills { display: grid; grid-template-columns: 140px 1fr; gap: 14px 20px; }
+  .skills dt { font-weight: 600; font-size: 14.5px; padding-top: 3px; }
+  .skills dd { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skills dd span {
+    font-size: 13.5px; padding: 3px 10px; border: 1px solid var(--line);
+    border-radius: 6px; background: var(--surface);
+  }
+
+  footer { margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--line);
+           font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  footer button {
+    font: inherit; color: var(--muted); background: none; border: 0; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  footer button:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 44px 16px 72px; }
+    h1 { font-size: 32px; }
+    .tagline { font-size: 16.5px; }
+    .skills { grid-template-columns: 1fr; gap: 6px; }
+    .skills dd { margin-bottom: 10px; }
+  }
+
+  /* Print: one clean, black-on-white page set */
+  @media print {
+    @page { margin: 0.4in 0.5in; }
+    :root { --bg:#fff; --surface:#fff; --text:#000; --muted:#333; --faint:#444; --line:#bbb; --accent:#000; --chip:#fff; }
+    body { font-size: 9.5pt; line-height: 1.3; }
+    .wrap { max-width: none; padding: 0; }
+    header { margin-bottom: 8px; text-align: center; }
+    h1 { font-size: 20pt; }
+    .tagline { display: none; }
+    .links { justify-content: center; margin-top: 8px; gap: 2px 14px; }
+    .links a { border: 0; padding: 0; font-size: 9.5pt; background: none; color: #000; }
+    .links a.primary { display: none; }
+    .links svg { display: none; }
+    .links a[data-print]::after { content: attr(data-print); }
+    .links a[data-print] .lbl { display: none; }
+    section { margin-top: 9px; }
+    h2 { font-size: 9.5pt; padding-bottom: 2px; margin-bottom: 5px; letter-spacing: 0.08em; }
+    .item { margin-bottom: 6px; break-inside: avoid; }
+    h3 { font-size: 10.5pt; }
+    .date { font-size: 9pt; }
+    .sub, .course, .edu-facts { font-size: 9.5pt; margin-top: 1px; }
+    ul.points { margin-top: 2px; }
+    ul.points li { margin-top: 0; }
+    .tags { display: none; }
+    .skills { grid-template-columns: 70px 1fr; gap: 1px 10px; }
+    .skills dt { font-size: 9.5pt; padding: 0; }
+    .skills dd { display: block; }
+    .skills dd span { border: 0; padding: 0; font-size: 9.5pt; background: none; }
+    .skills dd span:not(:last-child)::after { content: ", "; }
+    footer { display: none; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <h1>Yuvraj Sarin</h1>
+    <p class="tagline">
+      <strong>Computer Science &amp; Physics</strong> at Virginia Tech, building backend systems,
+      machine-learning pipelines and real-time web apps.
+    </p>
+    <nav class="links" aria-label="Contact">
+      <a href="mailto:yuvisarin12@gmail.com" data-print="yuvisarin12@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <span class="lbl">Email</span>
+      </a>
+      <!-- TODO: replace with your real LinkedIn profile URL -->
+      <a href="https://www.linkedin.com/in/yuvraj-sarin" target="_blank" rel="noopener" data-print="linkedin.com/in/yuvraj-sarin">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5Z"/></svg>
+        <span class="lbl">LinkedIn</span>
+      </a>
+      <a href="https://github.com/Yuvisarin17" target="_blank" rel="noopener" data-print="github.com/Yuvisarin17">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        <span class="lbl">GitHub</span>
+      </a>
+      <a href="#" class="primary" onclick="window.print();return false;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg>
+        Download PDF
+      </a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Education</h2>
+    <div class="item">
+      <div class="row">
+        <h3>Virginia Polytechnic Institute and State University</h3>
+        <span class="date">Expected May 2028</span>
+      </div>
+      <p class="sub">Dual Degree in Computer Science &amp; Physics · Blacksburg, Virginia</p>
+      <div class="edu-facts">
+        <span><b>GPA</b> 3.71 / 4.00</span>
+        <span><b>Dean’s List</b> every semester</span>
+      </div>
+      <p class="course">
+        Coursework: Data Structures &amp; Algorithms, Graph Theory, Computer Organization &amp; Programming,
+        Combinatorics, Statistics, Computer Systems, Comparative Languages, CUDA Programming
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+
+    <div class="item">
+      <div class="row">
+        <h3>Artificial Intelligence Intern <span class="org">· Azyntis Technologies</span></h3>
+        <span class="date">Jun 2026 – Jul 2026</span>
+      </div>
+      <ul class="points">
+        <li>Developed and fine-tuned machine-learning models on historical indices, ETFs, futures and derivatives data to identify market-movement patterns.</li>
+        <li>Built pipelines to ingest, clean and structure high-frequency market data; contributed to backend APIs that surface AI-generated insights in internal dashboards.</li>
+        <li>Worked with engineering and analytics teams to evaluate ETF and derivative price-trend predictions and improve model accuracy.</li>
+      </ul>
+      <div class="tags"><span>Python</span><span>PyTorch</span><span>Time-series</span><span>Data pipelines</span></div>
+    </div>
+
+    <div class="item">
+      <div class="row">
+        <h3>Undergraduate Researcher <span class="org">· Virginia Tech Dept. of Computer Science</span></h3>
+        <span class="date">Oct 2025 – Present</span>
+      </div>
+      <p class="sub">Backend engineer on a gamified SQL learning platform with a real-time leaderboard ranking students by assignment completion speed; targeted for deployment in CS 4604 (Intro to Database Management Systems).</p>
+      <ul class="points">
+        <li>Built a webhook-driven leaderboard update flow: the grading service POSTs back on each assignment run, pushing session state to clients in near real time without polling.</li>
+        <li>Standardized all event timestamps to UTC across the backend, reducing average clock drift by 90%, and optimized Psycopg2 PostgreSQL access patterns for high-frequency leaderboard reads under concurrent student load.</li>
+      </ul>
+      <div class="tags"><span>PostgreSQL</span><span>Psycopg2</span><span>Webhooks</span><span>Real-time</span></div>
+    </div>
+
+    <div class="item">
+      <div class="row">
+        <h3>Undergraduate Researcher <span class="org">· Virginia Tech ICAT</span></h3>
+        <span class="date">Jan 2026 – May 2026</span>
+      </div>
+      <p class="sub">Team Loopy (IDPro): ICAT-funded browser application that converts stereo music into immersive 3D spatial audio.</p>
+      <ul class="points">
+        <li>Built a responsive React + Tailwind interface with a custom Canvas-based particle system that visualizes audio spatialization in real time, synced to playback state.</li>
+        <li>Presented the working prototype at ICAT Day (50+ attendees) and the IDPro Showcase (100+ attendees), Spring 2026.</li>
+      </ul>
+      <div class="tags"><span>React</span><span>Tailwind</span><span>Canvas</span><span>Web Audio</span></div>
+    </div>
+
+    <div class="item">
+      <div class="row">
+        <h3>Full Stack Development Intern <span class="org">· Tricon Infra Buildtech</span></h3>
+        <span class="date">Jun 2025 – Aug 2025</span>
+      </div>
+      <ul class="points">
+        <li>Debugged and resolved 10+ P0/P1 issues and automated 20+ weekly manual tasks (data entry, reporting workflows) with backend endpoints and scripts, reducing ops workload by 25%.</li>
+        <li>Built role-based authentication flows and ERP API integrations; containerized services for staging with Docker to streamline testing and handoffs.</li>
+      </ul>
+      <div class="tags"><span>Node.js</span><span>Auth / RBAC</span><span>Docker</span><span>ERP APIs</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+
+    <div class="item">
+      <div class="row">
+        <h3>Kaka <span class="org">· Local-first AI voice assistant</span></h3>
+        <span class="date">Mar 2026 – Present</span>
+      </div>
+      <ul class="points">
+        <li>Built a fully offline AI voice assistant with a concurrent Whisper → Qwen → Piper pipeline, wake-word detection, hybrid SQLite/ChromaDB memory and 6+ native tools, optimized for an 8 GB consumer GPU.</li>
+      </ul>
+      <div class="tags"><span>Whisper</span><span>Qwen</span><span>Piper</span><span>ChromaDB</span><span>OpenWakeWord</span></div>
+    </div>
+
+    <div class="item">
+      <div class="row">
+        <h3>FNet Language Model</h3>
+        <span class="date">Jan 2026 – May 2026</span>
+      </div>
+      <ul class="points">
+        <li>Implemented the FNet architecture (Lee-Thorp et al.) in PyTorch: a 12.3M-parameter transformer alternative that replaces self-attention with parameter-free Fourier mixing.</li>
+      </ul>
+      <div class="tags"><span>PyTorch</span><span>Transformers</span><span>FFT</span></div>
+    </div>
+
+    <div class="item">
+      <div class="row">
+        <h3>AI-Powered Traffic Violation Detection &amp; E-Challan System</h3>
+        <span class="date">Jan 2026</span>
+      </div>
+      <ul class="points">
+        <li>Used YOLOv8 for vehicle detection and EasyOCR for plate extraction; evaluated on 500 annotated images, achieving 80–85% precision on accepted reads.</li>
+      </ul>
+      <div class="tags"><span>YOLOv8</span><span>EasyOCR</span><span>Computer vision</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl class="skills">
+      <dt>Languages</dt>
+      <dd><span>Python</span><span>Java</span><span>JavaScript</span><span>C/C++</span><span>Swift</span><span>SQL</span><span>Bash</span><span>HTML/CSS</span></dd>
+      <dt>AI / ML</dt>
+      <dd><span>PyTorch</span><span>Transformers</span><span>Whisper</span><span>Ollama</span><span>Piper</span><span>OpenWakeWord</span><span>ChromaDB</span><span>YOLOv8</span><span>EasyOCR</span><span>NumPy</span><span>Pandas</span></dd>
+      <dt>Backend</dt>
+      <dd><span>FastAPI</span><span>Flask</span><span>Django</span><span>Node.js</span><span>Express</span><span>PostgreSQL</span><span>Redis</span><span>SQLite</span><span>Psycopg2</span></dd>
+      <dt>Tools</dt>
+      <dd><span>Git</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Render</span></dd>
+    </dl>
+  </section>
+
+  <footer>
+    <span>© 2026 Yuvraj Sarin</span>
+    <button type="button" onclick="window.print()">Print / save as PDF</button>
+  </footer>
+
+</main>
+</body>
+</html>
