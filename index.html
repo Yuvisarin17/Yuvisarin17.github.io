@@ -39,6 +39,7 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-text-size-adjust: 100%; }
+  html, body { overflow-x: clip; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -120,6 +121,68 @@
     .skills dd { margin-bottom: 10px; }
   }
 
+
+  /* ---------- Motion ---------- */
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes drift {
+    0%   { transform: translate(-10%, -10%) scale(1); }
+    50%  { transform: translate(8%, 6%) scale(1.15); }
+    100% { transform: translate(-10%, -10%) scale(1); }
+  }
+  header { position: relative; isolation: isolate; }
+  header::before {
+    content: ""; position: absolute; z-index: -1; inset: -120px -80px auto auto;
+    width: 420px; height: 420px; border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%);
+    filter: blur(20px); animation: drift 18s ease-in-out infinite; pointer-events: none;
+  }
+  header > * { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+  header > h1 { animation-delay: .05s; }
+  header > .tagline { animation-delay: .18s; }
+  header > .links { animation-delay: .32s; }
+
+  .links a { transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease; }
+  .links a:hover { transform: translateY(-2px); box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 60%, transparent); }
+  .links a.primary svg { transition: transform .25s ease; }
+  .links a.primary:hover svg { transform: translateY(2px); }
+
+  /* Section rule draws in */
+  h2 { border-bottom: 0; position: relative; }
+  h2::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background: linear-gradient(90deg, var(--accent), var(--line) 30%);
+    transform-origin: left; transition: transform 1s cubic-bezier(.2,.7,.2,1);
+  }
+
+  /* Items: hover accent bar */
+  .item { position: relative; transition: transform .25s ease; }
+  .item::before {
+    content: ""; position: absolute; left: -18px; top: 4px; bottom: 4px; width: 2px; border-radius: 2px;
+    background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform .3s ease;
+  }
+  .item:hover { transform: translateX(4px); }
+  .item:hover::before { transform: scaleY(1); }
+  .tags span, .skills dd span { transition: transform .18s ease, color .18s ease, border-color .18s ease, background .18s ease; }
+  .tags span:hover { transform: translateY(-2px); color: var(--accent); background: var(--accent-soft); }
+  .skills dd span:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+
+  /* Scroll reveal (only when JS is running) */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .js h2:not(.in)::after { transform: scaleX(0); }
+
+  /* Scroll progress */
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; z-index: 10;
+              background: var(--accent); transform-origin: left; transform: scaleX(0); }
+
+  @media (max-width: 600px) { .item::before { left: -10px; } header::before { width: 280px; height: 280px; inset: -80px -60px auto auto; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+    .js h2::after { transform: none; }
+  }
+
   /* Print: one clean, black-on-white page set */
   @media print {
     @page { margin: 0.4in 0.5in; }
@@ -150,11 +213,15 @@
     .skills dd span { border: 0; padding: 0; font-size: 9.5pt; background: none; }
     .skills dd span:not(:last-child)::after { content: ", "; }
     footer { display: none; }
+    header::before, .progress, .item::before, h2::after { display: none !important; }
+    header > *, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+    h2 { border-bottom: 1px solid var(--line); }
     a { text-decoration: none; }
   }
 </style>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 <main class="wrap">
 
   <header>
@@ -315,5 +382,34 @@
   </footer>
 
 </main>
+<script>
+  (function () {
+    var root = document.documentElement;
+    if (!('IntersectionObserver' in window)) return;
+    root.classList.add('js');
+    var els = document.querySelectorAll('section h2, .item, .skills');
+    els.forEach(function (el) {
+      el.classList.add('reveal');
+      var sibs = el.parentElement.querySelectorAll(':scope > .item');
+      var i = Array.prototype.indexOf.call(sibs, el);
+      if (i > 0) el.style.setProperty('--d', Math.min(i, 4) * 0.06 + 's');
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    els.forEach(function (el) { io.observe(el); });
+    // Never leave content hidden when printing
+    window.addEventListener('beforeprint', function () { els.forEach(function (el) { el.classList.add('in'); }); });
+
+    var bar = document.querySelector('.progress'), ticking = false;
+    function update() {
+      var h = root.scrollHeight - root.clientHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? root.scrollTop / h : 0) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  })();
+</script>
 </body>
 </html>
